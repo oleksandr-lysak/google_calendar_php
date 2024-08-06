@@ -14,13 +14,13 @@ $apiKey = $_ENV['API_KEY'];
 $calendarId = $_ENV['CALENDAR_ID'];
 
 //calculate start and end dates of the current week
-$startDate = new DateTime();
-$startDate->setISODate($startDate->format('o'), $startDate->format('W'), 1); // Понеділок поточного тижня
-$startDateFormatted = $startDate->format(DateTime::RFC3339);
+$startDate = (new DateTime())
+    ->setISODate((new DateTime())->format('o'), (new DateTime())->format('W'))
+    ->setTime(0, 0);
 
-$endDate = clone $startDate;
-$endDate->modify('+6 days'); // Неділя поточного тижня
-$endDateFormatted = $endDate->format(DateTime::RFC3339);
+$endDate = (clone $startDate)
+    ->modify('+6 days')
+    ->setTime(23, 59, 59);
 
 // Get events from Google Calendar
 $googleCalendar = new GoogleCalendar($apiKey);
